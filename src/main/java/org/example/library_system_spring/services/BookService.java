@@ -2,6 +2,7 @@ package org.example.library_system_spring.services;
 
 import org.example.library_system_spring.entities.Book;
 import org.example.library_system_spring.repositories.BookRepository;
+import org.example.library_system_spring.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class BookService {
 
     public Book findById(Long id){
         Optional<Book> obj = bookRepository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
 

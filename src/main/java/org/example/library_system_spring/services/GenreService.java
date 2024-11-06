@@ -4,6 +4,7 @@ import org.example.library_system_spring.entities.Book;
 import org.example.library_system_spring.entities.Genre;
 import org.example.library_system_spring.repositories.BookRepository;
 import org.example.library_system_spring.repositories.GenreRepository;
+import org.example.library_system_spring.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class GenreService {
 
     public Genre findById(Long id){
         Optional<Genre> obj = genreRepository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
 

@@ -4,6 +4,7 @@ package org.example.library_system_spring.services;
 import org.example.library_system_spring.entities.Client;
 import org.example.library_system_spring.entities.Loan;
 import org.example.library_system_spring.repositories.ClientRepository;
+import org.example.library_system_spring.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,6 @@ public class ClientService {
     }
     public Client findById(Long id){
         Optional<Client> obj = clientRepository.findById(id);
-        return obj.get();
+        return obj.orElseThrow(() -> new ResourceNotFoundException(id));
     }
 }

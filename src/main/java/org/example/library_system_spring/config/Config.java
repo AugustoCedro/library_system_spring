@@ -1,9 +1,11 @@
 package org.example.library_system_spring.config;
 
 import org.example.library_system_spring.entities.Book;
+import org.example.library_system_spring.entities.Client;
 import org.example.library_system_spring.entities.CsvReader;
 import org.example.library_system_spring.entities.Genre;
 import org.example.library_system_spring.repositories.BookRepository;
+import org.example.library_system_spring.repositories.ClientRepository;
 import org.example.library_system_spring.repositories.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,19 +22,21 @@ public class Config implements CommandLineRunner {
     private BookRepository bookRepository;
     @Autowired
     private GenreRepository genreRepository;
+    @Autowired
+    private ClientRepository clientRepository;
 
     @Override
     public void run(String... args) throws Exception {
 
         List<Book> bookList = CsvReader.bookReader();
         List<Genre> genreList = CsvReader.genreReader();
-
+        List<Client> clientList = CsvReader.clientReader();
 
         bookRepository.saveAll(bookList);
         genreRepository.saveAll(genreList);
+        clientRepository.saveAll(clientList);
 
         List<Genre> allGenres = genreRepository.findAll();
-
 
         Map<String, String[]> bookMap = CsvReader.bookGenreReader();
 

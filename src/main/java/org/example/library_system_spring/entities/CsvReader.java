@@ -40,6 +40,7 @@ public class CsvReader {
             throw new RuntimeException(e);
         }
     }
+
     public static Map<String,String[]> bookGenreReader(){
         try(BufferedReader br = new BufferedReader(new FileReader("D:\\projetos java\\library_system_spring\\CSVs\\books.csv"))){
             String line = br.readLine();
@@ -55,6 +56,24 @@ public class CsvReader {
             throw new RuntimeException(e);
         }
     }
+
+    public static List<Client> clientReader(){
+        try(BufferedReader br = new BufferedReader(new FileReader("D:\\projetos java\\library_system_spring\\CSVs\\clients.csv"))){
+            String line = br.readLine();
+            List<Client> list = new ArrayList<>();
+            while(line != null){
+                String[] fields = line.split(",");
+                Client client = new Client(null,fields[0],fields[1],fields[2]);
+                list.add(client);
+                line = br.readLine();
+            }
+            return list;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 
 
 }

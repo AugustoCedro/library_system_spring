@@ -3,7 +3,9 @@ package org.example.library_system_spring.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_books")
@@ -16,16 +18,24 @@ public class Book implements Serializable {
     private String author;
     private String synopsis;
     private Double price;
+    private Integer quantity;
+    @ManyToMany
+    @JoinTable(name = "book_genre",
+        joinColumns = @JoinColumn(name = "book_id"),
+        inverseJoinColumns = @JoinColumn(name = "genre_id"))
+    private Set<Genre> genreList = new HashSet<>();
+
 
     public Book() {
     }
 
-    public Book(Long id, String title, String author, String synopsis, Double price) {
+    public Book(Long id, String title, String author, String synopsis, Double price,Integer quantity) {
         this.id = id;
         this.title = title;
         this.author = author;
         this.synopsis = synopsis;
         this.price = price;
+        this.quantity = quantity;
     }
 
     public Long getId() {
@@ -68,6 +78,19 @@ public class Book implements Serializable {
         this.price = price;
     }
 
+    public Integer getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Integer quantity) {
+        this.quantity = quantity;
+    }
+
+    public Set<Genre> getGenreList() {
+        return genreList;
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -89,6 +112,8 @@ public class Book implements Serializable {
                 ", author='" + author + '\'' +
                 ", synopsis='" + synopsis + '\'' +
                 ", price=" + price +
+                ", quantity=" + quantity +
+                ", genreList=" + genreList +
                 '}';
     }
 }

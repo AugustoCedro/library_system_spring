@@ -1,11 +1,10 @@
 package org.example.library_system_spring.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_books")
@@ -24,6 +23,11 @@ public class Book implements Serializable {
         joinColumns = @JoinColumn(name = "book_id"),
         inverseJoinColumns = @JoinColumn(name = "genre_id"))
     private Set<Genre> genreList = new HashSet<>();
+
+
+    @OneToMany(mappedBy = "book")
+    @JsonIgnore
+    private List<Loan> loanList = new ArrayList<>();
 
 
     public Book() {
@@ -90,6 +94,10 @@ public class Book implements Serializable {
         return genreList;
     }
 
+
+    public List<Loan> getLoanList() {
+        return loanList;
+    }
 
     @Override
     public boolean equals(Object o) {

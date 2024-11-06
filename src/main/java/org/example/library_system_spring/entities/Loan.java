@@ -3,9 +3,12 @@ package org.example.library_system_spring.entities;
 
 import jakarta.persistence.*;
 import org.example.library_system_spring.entities.enums.Status;
+import org.example.library_system_spring.repositories.ClientRepository;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -19,14 +22,25 @@ public class Loan implements Serializable {
     private LocalDate returnDate;
     private Integer status;
 
+    @ManyToOne
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
+
+
     public Loan() {
     }
 
-    public Loan(Long id, LocalDate loanDate, LocalDate returnDate, Status status) {
+    public Loan(Long id, LocalDate loanDate, Status status,Client client,Book book) {
         this.id = id;
         this.loanDate = loanDate;
-        this.returnDate = returnDate;
+        this.returnDate = loanDate.plusDays(15);
         setStatus(status);
+        this.client = client;
+        this.book = book;
     }
 
     public Long getId() {
@@ -61,6 +75,27 @@ public class Loan implements Serializable {
         if(status != null){
             this.status = status.getCode();
         }
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 
     @Override

@@ -1,9 +1,12 @@
 package org.example.library_system_spring.entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 @Entity
 @Table(name = "tb_clients")
@@ -14,6 +17,12 @@ public class Client implements Serializable {
     private String name;
     private String email;
     private String phone;
+
+
+    @OneToMany(mappedBy = "client")
+    @JsonIgnore
+    private List<Loan> loanList = new ArrayList<>();
+
 
     public Client() {
     }
@@ -56,6 +65,12 @@ public class Client implements Serializable {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public List<Loan> getLoanList() {
+        return loanList;
+    }
+
+
 
     @Override
     public boolean equals(Object o) {
